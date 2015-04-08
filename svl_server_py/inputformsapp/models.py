@@ -26,8 +26,14 @@ class Chapter(models.Model):
   def __unicode__(self):
     return self.nameChapter
 
+class UpdateChapter(models.Model):
+  chapterLanguageUpdate = models.ForeignKey(Language)
+  chapterTypeUpdate = models.ForeignKey(Type)
+  nameChapterUpdate = models.ForeignKey(Chapter)
+  mFileUpdate = models.FileField(upload_to="chapters/")
+
 class Word(models.Model):
-  wordChapter = models.ForeignKey(Type)
+  wordChapter = models.ForeignKey(Chapter)
   french = models.CharField(max_length=100)
   translation = models.CharField(max_length=100)
 

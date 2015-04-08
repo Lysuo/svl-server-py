@@ -12,25 +12,35 @@
   <body>
     <div class="container">
       <h3>Select the action you want to perform :</h3>
-      <div class="btn-group">
-
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          Action <span class="caret"></span>
-        </button>
-
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="#">Insert new language</a></li>
-          <li><a href="#">Insert new type</a></li>
-          <li><a href="#">Insert new chapter</a></li>
-          <li><a href="#">Update an existing chapter</a></li>
-        </ul>
+      <div class="panel panel-body">
+        <fieldset>
+          <input type="radio" name="group1" id="radio-form1" value="form1"> Insert new language<br>
+          <input type="radio" name="group1" id="radio-form2" value="form2"> Insert new type<br>
+          <input type="radio" name="group1" id="radio-form3" value="form3"> Insert new chapter<br>
+          <input type="radio" name="group1" id="radio-form4" value="form4"> Update existing chapter</fieldset>
       </div>
 
+      <!--div class="btn-group">
+
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Action <span class="caret"></span>
+      </button>
+
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Insert new language</a></li>
+        <li><a href="#">Insert new type</a></li>
+        <li><a href="#">Insert new chapter</a></li>
+        <li><a href="#">Update an existing chapter</a></li>
+      </ul>
+      </div-->
+
       <br /><br />
-      <div id="newLanguage" class="panel panel-default panel-form-perso" style="display:visible;">
+
+
+      <div id="form1" class="panel panel-default panel-form-perso forms-perso" style="display:none;">
         <div class="panel-heading">New language</div>
         <div class="panel-body">
-          {% if sentLanguage %}The language has been inserted correctly{% endif %}
+          {% if sentLanguage %}<span class="alert alert-success">The language has been inserted correctly</span><br /><br />{% endif %}
 
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
@@ -49,11 +59,11 @@
       </div>
 
 
-      <div id="newType" class="panel panel-default panel-form-perso">
+      <div id="form2" class="panel panel-default panel-form-perso forms-perso" style="display:none;">
         <div class="panel-heading">New type</div>
         <div class="panel-body">
 
-          {% if sentType %}The type has been inserted correctly{% endif %}
+          {% if sentType %}<span class="success">The type has been inserted correctly</span><br /><br />{% endif %}
 
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
@@ -72,11 +82,11 @@
       </div>
 
 
-      <div id="newChapter" class="panel panel-default panel-form-perso">
+      <div id="form3" class="panel panel-default panel-form-perso forms-perso" style="display:none;" >
         <div class="panel-heading">New chapter</div>
         <div class="panel-body">
 
-          {% if sentChapter %}The chapter has been inserted correctly{% endif %}
+          {% if sentChapter %}<span class="alert alert-success">The chapter has been inserted correctly</span><br /><br />{% endif %}
 
           <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -102,6 +112,39 @@
         </div>
       </div>
 
+      <div id="form4" class="panel panel-default panel-form-perso forms-perso" style="display:none;" >
+        <div class="panel-heading">Update chapter</div>
+        <div class="panel-body">
+
+          {% if sentChapter %}<span class="alert alert-success">The chapter has been updated correctly</span><br /><br />{% endif %}
+
+          <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="chapterLanguageUpdate">Language</label>
+              {% render_field formChapterUpdate.chapterLanguageUpdate id="chapterLanguageUpdate" class+="form-control" %}
+            </div>	
+            <div class="form-group">
+              <label for="chapterTypeUpdate">Type</label>
+              {% render_field formChapterUpdate.chapterTypeUpdate id="chapterTypeUpdate" class+="form-control" %}
+            </div>		  
+            <div class="form-group">
+              <label for="chapterUpdate">Chapter</label>
+              {% render_field formChapterUpdate.nameChapterUpdate id="chapterUpdate" class+="form-control" placeholder="Enter name of chapter" %}
+            </div>
+            <div class="form-group">
+              <label for="chapterFileUpdate">CSV file</label>
+              {% render_field formChapterUpdate.mFileUpdate id="chapterFileUpdate" type="file" %}
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+        </div>
+      </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> <!-- jQuery est inclus ! -->
+    <script src="/static/js/own-js.js"></script>
+
   </body>
 </html>
