@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <link rel="stylesheet" href="css/bootstrap.css" />
+   <title>Title</title>
+</head>
+
+<body>
+
+<div class="container">
+
+<h3>Select the action you want to perform :</h3>
+<div class="btn-group">
+
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    Action <span class="caret"></span>
+  </button>
+  
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">Insert new language</a></li>
+    <li><a href="#">Insert new type</a></li>
+    <li><a href="#">Insert new chapter</a></li>
+	<li><a href="#">Update an existing chapter</a></li>
+  </ul>
+</div>
+
+<br /><br />
+<div id="newLanguage" class="panel panel-default panel-form-perso" style="display:visible;">
+	<div class="panel-heading">New language</div>
+	<div class="panel-body">
+
+		<form>
+		  <div class="form-group">
+			<label for="language">Language</label>
+			<input type="text" class="form-control" id="language" placeholder="Enter language">
+		  </div>
+		  <div class="form-group">
+			<label for="iconLanguage">Icon</label>
+			<input type="text" class="form-control" id="iconLanguage" placeholder="Enter icon string">
+		  </div>    
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+
+	</div>
+</div>
+
+<div id="newType" class="panel panel-default panel-form-perso">
+	<div class="panel-heading">New type</div>
+	<div class="panel-body">
+
+		<form>
+		  <div class="form-group">
+			<label for="typeLanguage">Language</label>
+			  <select class="form-control" id="typeLanguage">
+			  </select>
+		  </div>		  
+		  <div class="form-group">
+			<label for="type">Type</label>
+			<input type="text" class="form-control" id="type" placeholder="Enter type">
+		  </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+
+	</div>
+</div>
+
+<div id="newChapter" class="panel panel-default panel-form-perso">
+	<div class="panel-heading">New chapter</div>
+	<div class="panel-body">
+
+		<form>
+		  <div class="form-group">
+			<label for="chapterLanguage">Language</label>
+			  <select class="form-control" id="chapterLanguage">
+			  </select>
+		  </div>	
+		  <div class="form-group">
+			<label for="chapterType">Type</label>
+			  <select class="form-control" id="chapterType">
+			  </select>
+		  </div>		  
+		  <div class="form-group">
+			<label for="chapter">Chapter</label>
+			<input type="text" class="form-control" id="Chapter" placeholder="Enter name of chapter">
+		  </div>
+		  <div class="form-group">
+			<label for="chapterFile">CSV file</label>
+			<input type="file" id="chapterFile">
+		  </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+
+	</div>
+</div>
+
+<div id="updateChapter" class="panel panel-default panel-form-perso">
+	<div class="panel-heading">Update chapter</div>
+	<div class="panel-body">
+
+		<form>
+		  <div class="form-group">
+			<label for="chapterLanguageUpdate">Language</label>
+			  <select class="form-control" id="chapterLanguageUpdate">
+			  </select>
+		  </div>	
+		  <div class="form-group">
+			<label for="chapterTypeUpdate">Type</label>
+			  <select class="form-control" id="chapterTypeUpdate">
+			  </select>
+		  </div>		  
+		  <div class="form-group">
+			<label for="chapterUpdate">Chapter</label>
+			<select class="form-control" id="chapterUpdate">
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="chapterFileUpdate">CSV file</label>
+			<input type="file" id="chapterFileUpdate">
+		  </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+
+	</div>
+</div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+$(document).ready(function(){
+	alert('hey');
+    var $panels = $('.panel-form-perso');
+	$panels.css({display: 'none'});
+});
+</script>
+<script src="js/bootstrap.js"></script>
+     
+</body>
+</html>

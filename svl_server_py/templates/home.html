@@ -1,0 +1,107 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/own-style.css' %}" />
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+    <title>{% block title %}Base title{% endblock %}</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h3>Select the action you want to perform :</h3>
+      <div class="btn-group">
+
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">Insert new language</a></li>
+          <li><a href="#">Insert new type</a></li>
+          <li><a href="#">Insert new chapter</a></li>
+          <li><a href="#">Update an existing chapter</a></li>
+        </ul>
+      </div>
+
+      <br /><br />
+      <div id="newLanguage" class="panel panel-default panel-form-perso" style="display:visible;">
+        <div class="panel-heading">New language</div>
+        <div class="panel-body">
+          {% if sentLanguage %}The language has been inserted correctly{% endif %}
+
+          <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="language">Language</label>
+              {% render_field formLanguage.nameLanguage id="language" class+="form-control" placeholder="Enter language" %}
+            </div>
+            <div class="form-group">
+              <label for="iconLanguage">Icon</label>
+              {% render_field formLanguage.icon id="iconLanguage" class+="form-control" placeholder="Enter icon name without extension" %}
+            </div>    
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+        </div>
+      </div>
+
+
+      <div id="newType" class="panel panel-default panel-form-perso">
+        <div class="panel-heading">New type</div>
+        <div class="panel-body">
+
+          {% if sentType %}The type has been inserted correctly{% endif %}
+
+          <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="typeLanguage">Language</label>
+              {% render_field formType.typeLanguage id="typeLanguage" class+="form-control" %}
+            </div>		  
+            <div class="form-group">
+              <label for="type">Type</label>
+              {% render_field formType.nameType id="typeLanguage" class+="form-control" placeholder="Enter the type" %}
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+        </div>
+      </div>
+
+
+      <div id="newChapter" class="panel panel-default panel-form-perso">
+        <div class="panel-heading">New chapter</div>
+        <div class="panel-body">
+
+          {% if sentChapter %}The chapter has been inserted correctly{% endif %}
+
+          <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="chapterLanguage">Language</label>
+              {% render_field formChapter.chapterLanguage id="chapterLanguage" class+="form-control" %}
+            </div>	
+            <div class="form-group">
+              <label for="chapterType">Type</label>
+              {% render_field formChapter.chapterType id="chapterType" class+="form-control" %}
+            </div>		  
+            <div class="form-group">
+              <label for="chapter">Chapter</label>
+              {% render_field formChapter.nameChapter id="chapter" class+="form-control" placeholder="Enter name of chapter" %}
+            </div>
+            <div class="form-group">
+              <label for="chapterFile">CSV file</label>
+              {% render_field formChapter.mFile id="chapterFile" type="file" %}
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
