@@ -17,9 +17,9 @@ def home(request):
 
   if request.method == 'POST':
 
-    print "before if/else"
+    print request.POST
+
     if request.is_ajax():
-      print "ajax!"
       response_data = dealAjax(request)
       return HttpResponse(json.dumps(response_data),content_type='application/json')
 
@@ -28,6 +28,7 @@ def home(request):
       formType= TypeForm(request.POST)
       formChapter= ChapterForm(request.POST, request.FILES)
       formChapterUpdate= UpdateChapterForm(request.POST, request.FILES)
+
 
       # submitting form for languages
       if formLanguage.is_valid():
@@ -45,6 +46,7 @@ def home(request):
 
       # submitting form for chapters (new)
       elif formChapter.is_valid():
+
         language = formChapter.cleaned_data['chapterLanguage']
         chapterType = formChapter.cleaned_data['chapterType']
         name = formChapter.cleaned_data['nameChapter']
@@ -65,8 +67,14 @@ def home(request):
         chapterType = formChapterUpdate.cleaned_data['chapterTypeUpdate']
         name = formChapterUpdate.cleaned_data['nameChapterUpdate']
         chapterFile = formChapterUpdate.cleaned_data['mFileUpdate']
-        sentChapter = True
         formChapterUpdate.save()
+
+        reader = csv.reader(chapterFile)
+        for row in reader:
+          w = Word(wordChapter=Chapter.objects.filter(nameChapter=name)[0], french=row[0], translation=row[1])
+          w.save()
+
+        sentChapterUpdate = True
 
   # GET request
   else:
@@ -79,35 +87,49 @@ def home(request):
 
 @csrf_exempt
 def dealAjax(request):
-  if request.method == 'POST' and request.is_ajax():
-    data = request.POST
-    selectedid = data['selected-id'] 
-    value = data['value']
-    print selectedid
-    print value
+  data = request.POST
+  selectedid = data['selected-id'].encode("utf8")
+  value = data['value'].encode("utf8")
+  mem = request.session.get('memLan')
+  if not mem:
+    mem = 'none'
 
-    if selectedid is "chapterLanguage":
-      t = Type.objects.filter(typeLanguage=value)
-      print t
-    elif selectedid is "chapterLanguageUpdate":
-      t = Type.objects.filter(typeLanguage=value)
-      print t
-    elif selectedid is "chapterTypeUpdate":
-      c = Chapter.objects.filter(chapterType=value)
-      print c
-   
-    response_data={}
-    response_data['title'] = 'Hola'
+  response_data={}
 
-#    try:
-#      response_data['title']='Hey its done ajax'
-#      response_data['message']=sentence
+  if selectedid == "chapterLanguage":
+    elem = Type.objects.filter(typeLanguage__nameLanguage=value)
+    response_data['idTarget']='#chapterType'
+    elems = buildTypesA(elem)
+  elif selectedid == "chapterLanguageUpdate":
+    elem = Type.objects.filter(typeLanguage__nameLanguage=value)
+    response_data['idTarget']='#chapterTypeUpdate'
+    elems = buildTypesA(elem)
+    mem = value
+  elif selectedid == "chapterTypeUpdate":
+    elem = Chapter.objects.filter(chapterType__nameType=value, chapterLanguage__nameLanguage=mem)
+    response_data['idTarget']='#chapterUpdate'
+    elems = buildChaptersA(elem)
 
-#    except:
-#      response_data['title']='NO'
-#      response_data['message']='NO'
+  response_data['elems'] = elems 
+  request.session['memLan'] = mem
+  print response_data
 
-#    print response_data
-    return response_data
-  else:
-    return HttpResponse("get response")
+  return response_data
+
+def buildTypesA(elem):
+  types = []
+  for e in elem:
+    eE = {}
+    eE['Name'] = e.nameType.encode('utf8')
+    eE['id'] = e.id
+    types.append(eE)
+  return types
+
+def buildChaptersA(elem):
+  chapters = []
+  for e in elem:
+    eE = {}
+    eE['Name'] = e.nameChapter.encode('utf8')
+    eE['id'] = e.id
+    chapters.append(eE)
+  return chapters 

@@ -31,13 +31,18 @@ $(function(){
         },
 
         success: function(json) {
-          alert(json.title);
+          $(json.idTarget)
+            .empty()
+            .append('<option value selected="selected">---------</option>');
+          $.each(json.elems, function(i, item){
+            $(json.idTarget).append('<option value="'+item.id+'">'+item.Name+'</option>');
+          });
         },
         error: function(){
           alert("error");
         }, 
         complete: function(){
-          alert("complete");
+//          alert("complete");
         } 
       });
 

@@ -1,7 +1,14 @@
-form chapter : clean method to ensure the chapter is not already existing
+form chapter : clean method to ensure the chapter is not already existing for the language + type
+form language : clean method to ensure the language is not already existing
+form type : clean method to ensure the type is not already existing for the language
 
-how to see the ids in the admin panels
+how to see the ids in the admin panels //done
 
-ajax calls
+ajax calls //done
 
+make the form stay on the page after submitting it 
+remove values that are reloaded automatically in the select inputs
+
+
+there's some fields missing in the chapter model (date)
 rest app
