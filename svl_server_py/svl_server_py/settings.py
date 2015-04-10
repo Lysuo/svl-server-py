@@ -21,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b*)2^(7mm^l2*kxw+hpr*!8o^zbku0w*vjnb!)4i@==@zvbg7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ["jeromegueret.ovh"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,11 +85,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = join(BASE_DIR, '/media/')
+#MEDIA_ROOT = join(BASE_DIR, 'media')
 
-
-STATICFILES_DIRS = (
-    join(BASE_DIR, 'static'),
+MEDIAFILES_DIRS = (
+    join(BASE_DIR, 'media'),
 )
 
 TEMPLATE_DIRS = (

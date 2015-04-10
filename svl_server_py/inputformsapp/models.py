@@ -21,7 +21,7 @@ class Chapter(models.Model):
   chapterType = models.ForeignKey(Type)
   nameChapter = models.CharField(max_length=100)
   mDl = models.BooleanField(default=False)
-  mFile = models.FileField(upload_to="chapters/")
+  mFile = models.FileField(upload_to="media/chapters/")
 
   def __unicode__(self):
     return self.nameChapter
@@ -30,7 +30,7 @@ class UpdateChapter(models.Model):
   chapterLanguageUpdate = models.ForeignKey(Language)
   chapterTypeUpdate = models.ForeignKey(Type)
   nameChapterUpdate = models.ForeignKey(Chapter)
-  mFileUpdate = models.FileField(upload_to="chapters/")
+  mFileUpdate = models.FileField(upload_to="media/chapters/")
 
 class Word(models.Model):
   wordChapter = models.ForeignKey(Chapter)
