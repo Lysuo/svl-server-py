@@ -21,11 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b*)2^(7mm^l2*kxw+hpr*!8o^zbku0w*vjnb!)4i@==@zvbg7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["jeromegueret.ovh"]
 
 
 # Application definition
