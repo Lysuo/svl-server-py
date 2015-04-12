@@ -24,29 +24,37 @@ def home(request):
       return HttpResponse(json.dumps(response_data),content_type='application/json')
 
     else:
+
       formLanguage = LanguageForm(request.POST)
+      if not formLanguage.has_changed():
+        formLanguage._errors = []
+
       formType= TypeForm(request.POST)
+      if not formType.has_changed():
+        formType._errors = []
+
       formChapter= ChapterForm(request.POST, request.FILES)
+      if not formChapter.has_changed():
+        formChapter._errors = []
+
       formChapterUpdate= UpdateChapterForm(request.POST, request.FILES)
 
-
       # submitting form for languages
-      if formLanguage.is_valid():
+      if formLanguage.is_valid() and formLanguage.has_changed():
         language = formLanguage.cleaned_data['nameLanguage']
         icon = formLanguage.cleaned_data['icon']
         sentLanguage = True
         formLanguage.save()
 
-
       # submitting form for types
-      elif formType.is_valid():
+      elif formType.is_valid() and formType.has_changed():
         language = formType.cleaned_data['typeLanguage']
         name = formType.cleaned_data['nameType']
         sentType = True
         formType.save()
 
       # submitting form for chapters (new)
-      elif formChapter.is_valid():
+      elif formChapter.is_valid() and formChapter.has_changed():
 
         language = formChapter.cleaned_data['chapterLanguage']
         chapterType = formChapter.cleaned_data['chapterType']
