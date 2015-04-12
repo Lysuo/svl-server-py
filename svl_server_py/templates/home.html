@@ -41,7 +41,16 @@
       <div id="form1" class="panel panel-default panel-form-perso forms-perso" style="display:none;">
         <div class="panel-heading">New language</div>
         <div class="panel-body">
-          {% if sentLanguage %}<br /><span class="alert alert-success form-to-display">The language has been inserted correctly</span><br /><br />{% endif %}
+          {% if sentLanguage %}
+          <br /><span class="alert alert-success form-to-display">The language has been inserted correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formLanguage.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formLanguage %}
+            {{ field.errors|striptags }} <br />
+            {% endfor %}
+          </span><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
@@ -144,12 +153,12 @@
       </div>
 
       <!--div id="output"> &nbsp; </div>
-      <div>
-        <form onsubmit="return false;">
-          Enter :- <br />
-          <input type="text" id="word" /> <br />
-          <button onclick="callajax()"> Submit </button>
-        </form>
+    <div>
+      <form onsubmit="return false;">
+        Enter :- <br />
+        <input type="text" id="word" /> <br />
+        <button onclick="callajax()"> Submit </button>
+      </form>
       </div-->
 
     </div>

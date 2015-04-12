@@ -37,6 +37,7 @@ def home(request):
         sentLanguage = True
         formLanguage.save()
 
+
       # submitting form for types
       elif formType.is_valid():
         language = formType.cleaned_data['typeLanguage']
