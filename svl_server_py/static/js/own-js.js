@@ -1,6 +1,8 @@
 $(function(){
+
   var $myForms = $(".forms-perso");
   $myForms.css("display", "none");
+  $('.form-to-display').parent().parent().css("display", "block");
 
   // change the displayed form in function of the checkbox checked.
   $('input:radio').change(
