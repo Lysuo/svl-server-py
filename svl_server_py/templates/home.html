@@ -41,7 +41,16 @@
       <div id="form1" class="panel panel-default panel-form-perso forms-perso" style="display:none;">
         <div class="panel-heading">New language</div>
         <div class="panel-body">
-          {% if sentLanguage %}<br /><span class="alert alert-success">The language has been inserted correctly</span><br /><br />{% endif %}
+          {% if sentLanguage %}
+          <br /><span class="alert alert-success form-to-display">The language has been inserted correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formLanguage.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formLanguage %}
+            {{ field.errors|striptags }}
+            {% endfor %}
+          </span><br /><br /><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
@@ -64,7 +73,16 @@
         <div class="panel-heading">New type</div>
         <div class="panel-body">
 
-          {% if sentType %}<br /><span class="alert alert-success">The type has been inserted correctly</span><br /><br />{% endif %}
+          {% if sentType %}
+          <br /><span class="alert alert-success form-to-display">The type has been inserted correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formType.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formType %}
+            {{ field.errors|striptags }}
+            {% endfor %}
+          </span><br /><br /><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post">
             {% csrf_token %}
@@ -87,7 +105,16 @@
         <div class="panel-heading">New chapter</div>
         <div class="panel-body">
 
-          {% if sentChapter %}<br /><span class="alert alert-success">The chapter has been inserted correctly</span><br /><br />{% endif %}
+          {% if sentChapter %}
+          <br /><span class="alert alert-success form-to-display">The chapter has been inserted correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formChapter.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formChapter %}
+            {{ field.errors|striptags }}
+            {% endfor %}
+          </span><br /><br /><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -117,7 +144,7 @@
         <div class="panel-heading">Update chapter</div>
         <div class="panel-body">
 
-          {% if sentChapterUpdate %}<br /><span class="alert alert-success">The chapter has been updated correctly</span><br /><br />{% endif %}
+          {% if sentChapterUpdate %}<br /><span class="alert alert-success form-to-display">The chapter has been updated correctly</span><br /><br /><br />{% endif %}
 
           <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -144,12 +171,12 @@
       </div>
 
       <!--div id="output"> &nbsp; </div>
-      <div>
-        <form onsubmit="return false;">
-          Enter :- <br />
-          <input type="text" id="word" /> <br />
-          <button onclick="callajax()"> Submit </button>
-        </form>
+    <div>
+      <form onsubmit="return false;">
+        Enter :- <br />
+        <input type="text" id="word" /> <br />
+        <button onclick="callajax()"> Submit </button>
+      </form>
       </div-->
 
     </div>
