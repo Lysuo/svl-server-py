@@ -20,8 +20,8 @@ class Chapter(models.Model):
   chapterLanguage = models.ForeignKey(Language)
   chapterType = models.ForeignKey(Type)
   nameChapter = models.CharField(max_length=100)
-  mDl = models.BooleanField(default=False)
-  mLU = models.BooleanField(default=True)
+  mDl = models.CharField(default='false', max_length=20)
+  mLU = models.CharField(default='true', max_length=20)
   mDLU = models.DateTimeField(auto_now_add=True, auto_now=True, blank=True)
   mFile = models.FileField(upload_to="media/chapters/")
 
