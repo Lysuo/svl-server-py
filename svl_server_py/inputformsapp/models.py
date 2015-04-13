@@ -21,6 +21,8 @@ class Chapter(models.Model):
   chapterType = models.ForeignKey(Type)
   nameChapter = models.CharField(max_length=100)
   mDl = models.BooleanField(default=False)
+  mLU = models.BooleanField(default=True)
+  mDLU = models.DateTimeField(auto_now_add=True, auto_now=True, blank=True)
   mFile = models.FileField(upload_to="media/chapters/")
 
   def __unicode__(self):
@@ -36,6 +38,9 @@ class Word(models.Model):
   wordChapter = models.ForeignKey(Chapter)
   french = models.CharField(max_length=100)
   translation = models.CharField(max_length=100)
+  mSuccess = models.IntegerField(default=0)
+  mSeen = models.IntegerField(default=0)
+  mProp = models.IntegerField(default=1)
 
   def __unicode__(self):
     return self.french
