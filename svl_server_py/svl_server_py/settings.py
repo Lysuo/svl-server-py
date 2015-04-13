@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'widget_tweaks',
     'inputformsapp',
+    'restapp',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

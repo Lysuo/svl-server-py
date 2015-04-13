@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('inputformsapp.urls')),
+    url(r'^api/rest/', include('restapp.urls')),
+
 
 )
 

@@ -11,7 +11,7 @@ class TypeAdmin(admin.ModelAdmin):
   ordering = ('id',)
 
 class ChapterAdmin(admin.ModelAdmin):
-  list_display = ('id', 'nameChapter',)
+  list_display = ('id', 'nameChapter', 'mDLU')
   list_filter = ('chapterLanguage', 'chapterType',)
   ordering = ('id',)
 
