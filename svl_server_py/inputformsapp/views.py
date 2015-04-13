@@ -8,6 +8,7 @@ from inputformsapp.forms import LanguageForm, TypeForm, ChapterForm, UpdateChapt
 from django.views.decorators.csrf import csrf_exempt
 
 import csv
+import datetime
 import json
 
 # Create your views here.
@@ -76,6 +77,11 @@ def home(request):
         chapterType = formChapterUpdate.cleaned_data['chapterTypeUpdate']
         name = formChapterUpdate.cleaned_data['nameChapterUpdate']
         chapterFile = formChapterUpdate.cleaned_data['mFileUpdate']
+
+        c = Chapter.objects.filter(nameChapter=name)[0]
+        c.mDLU = datetime.datetime.now()
+        c.save()
+
         formChapterUpdate.save()
 
         reader = csv.reader(chapterFile)
