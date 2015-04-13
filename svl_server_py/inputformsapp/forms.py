@@ -25,6 +25,8 @@ class TypeForm(forms.ModelForm):
     return value
 
 class ChapterForm(forms.ModelForm):
+  mDl = forms.CharField(required=False)
+  mLU = forms.CharField(required=False)
   class Meta:
     model = Chapter 
 
@@ -36,6 +38,18 @@ class ChapterForm(forms.ModelForm):
     if len(c)>0:
       raise forms.ValidationError("There's already a chapter with that name for that type and language in the DB.")
     return value
+
+  def clean_mDl(self):
+    data = self.cleaned_data['mDl']
+    if not data:
+      data = 'false'
+    return data
+
+  def clean_mLU(self):
+    data = self.cleaned_data['mLU']
+    if not data:
+      data = 'true'
+    return data
 
 class UpdateChapterForm(forms.ModelForm):
   class Meta:
