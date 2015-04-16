@@ -35,6 +35,8 @@ class UpdateChapter(models.Model):
   mFileUpdate = models.FileField(upload_to="media/chapters/")
 
 class Word(models.Model):
+  wordLanguage = models.ForeignKey(Language)
+  wordType = models.ForeignKey(Type)
   wordChapter = models.ForeignKey(Chapter)
   french = models.CharField(max_length=100)
   translation = models.CharField(max_length=100)
