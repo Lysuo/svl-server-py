@@ -57,6 +57,9 @@ class UpdateChapterForm(forms.ModelForm):
 
 
 class WordForm(forms.ModelForm):
+  mSuccess = forms.CharField(required=False)
+  mSeen = forms.CharField(required=False)
+  mProp = forms.CharField(required=False)
   class Meta:
     model = Word
 

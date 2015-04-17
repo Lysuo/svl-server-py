@@ -145,7 +145,16 @@
         <div class="panel-heading">Update chapter</div>
         <div class="panel-body">
 
-          {% if sentChapterUpdate %}<br /><span class="alert alert-success form-to-display">The chapter has been updated correctly</span><br /><br /><br />{% endif %}
+          {% if sentChapterUpdate %}
+          <br /><span class="alert alert-success form-to-display">The chapter has been updated correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formChapterUpdate.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formChapterUpdate %}
+            {{ field.errors|striptags }}
+            {% endfor %}
+          </span><br /><br /><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -175,7 +184,16 @@
         <div class="panel-heading">Insert new word</div>
         <div class="panel-body">
 
-          {% if insertedWord %}<br /><span class="alert alert-success form-to-display">The word has been inserted correctly</span><br /><br /><br />{% endif %}
+          {% if insertedWord %}
+          <br /><span class="alert alert-success form-to-display">The word has been inserted correctly</span><br /><br /><br />
+          {% endif %}
+          {% if formWord.errors %}
+          <br /><span class="alert alert-danger form-to-display">
+            {% for field in formWord %}
+            {{ field.errors|striptags }}
+            {% endfor %}
+          </span><br /><br /><br />
+          {% endif %}
 
           <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}

@@ -39,8 +39,10 @@ def home(request):
         formChapter._errors = []
 
       formChapterUpdate= UpdateChapterForm(request.POST, request.FILES)
+      if not formChapterUpdate.has_changed():
+        formChapterUpdate._errors = []
 
-      formWord= WordForm(request.POST, request.FILES)
+      formWord = WordForm(request.POST)
       if not formWord.has_changed():
         formWord._errors = []
 
@@ -70,12 +72,12 @@ def home(request):
         # parsing csv to insert words
         reader = csv.reader(chapterFile)
         for row in reader:
-          w = Word(wordLanguage=Language.objects.filter(id=language), wordType=Type.objects.filter(id=chapterType), wordChapter=Chapter.objects.filter(nameChapter=name)[0], french=row[0], translation=row[1])
+          w = Word(wordLanguage=Language.objects.filter(nameLanguage=language)[0], wordType=Type.objects.filter(nameType=chapterType)[0], wordChapter=Chapter.objects.filter(nameChapter=name)[0], french=row[0], translation=row[1])
           w.save()
         sentChapter = True
 
       # submitting form for chapters (update)
-      elif formChapterUpdate.is_valid():
+      elif formChapterUpdate.is_valid() and formChapterUpdate.has_changed():
 
         language = formChapterUpdate.cleaned_data['chapterLanguageUpdate']
         chapterType = formChapterUpdate.cleaned_data['chapterTypeUpdate']
@@ -90,7 +92,7 @@ def home(request):
 
         reader = csv.reader(chapterFile)
         for row in reader:
-          w = Word(language, chapterType, wordChapter=Chapter.objects.filter(nameChapter=name)[0], french=row[0], translation=row[1])
+          w = Word(wordLanguage=Language.objects.filter(nameLanguage=language)[0], wordType=Type.objects.filter(nameType=chapterType)[0], wordChapter=Chapter.objects.filter(nameChapter=name)[0], french=row[0], translation=row[1])
           w.save()
 
         sentChapterUpdate = True
@@ -103,6 +105,10 @@ def home(request):
         wordChapter = formWord.cleaned_data['wordChapter']
         french = formWord.cleaned_data['french']
         translation = formWord.cleaned_data['translation']
+
+        c = Chapter.objects.filter(nameChapter=wordChapter)[0]
+        c.mDLU = datetime.datetime.now()
+        c.save()
 
         formWord.save()
         insertedWord = True
@@ -136,6 +142,7 @@ def dealAjax(request):
     elem = Type.objects.filter(typeLanguage__nameLanguage=value)
     response_data['idTarget']='#wordType'
     elems = buildTypesA(elem)
+    mem = value
   elif selectedid == "chapterLanguageUpdate":
     elem = Type.objects.filter(typeLanguage__nameLanguage=value)
     response_data['idTarget']='#chapterTypeUpdate'
@@ -145,7 +152,7 @@ def dealAjax(request):
     elem = Chapter.objects.filter(chapterType__nameType=value, chapterLanguage__nameLanguage=mem)
     response_data['idTarget']='#chapterUpdate'
     elems = buildChaptersA(elem)
-  elif selectedid == "chapterType":
+  elif selectedid == "wordType":
     elem = Chapter.objects.filter(chapterType__nameType=value, chapterLanguage__nameLanguage=mem)
     response_data['idTarget']='#wordChapter'
     elems = buildChaptersA(elem)
