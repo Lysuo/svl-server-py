@@ -16,8 +16,8 @@ class ChapterAdmin(admin.ModelAdmin):
   ordering = ('id',)
 
 class WordAdmin(admin.ModelAdmin):
-  list_display = ('id', 'french', 'translation',)
-  list_filter = ('wordChapter',)
+  list_display = ('id', 'wordChapter', 'french', 'translation',)
+  list_filter = ('wordLanguage', 'wordType', 'wordChapter')
   ordering = ('id',)
 
 admin.site.register(Language, LanguageAdmin)

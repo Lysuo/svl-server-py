@@ -1,4 +1,4 @@
-from inputformsapp.models import Language, Type, Chapter, UpdateChapter
+from inputformsapp.models import Language, Type, Chapter, UpdateChapter, Word
 from django import forms
 
 class LanguageForm(forms.ModelForm):
@@ -54,3 +54,29 @@ class ChapterForm(forms.ModelForm):
 class UpdateChapterForm(forms.ModelForm):
   class Meta:
     model = UpdateChapter 
+
+
+class WordForm(forms.ModelForm):
+  mSuccess = forms.CharField(required=False)
+  mSeen = forms.CharField(required=False)
+  mProp = forms.CharField(required=False)
+  class Meta:
+    model = Word
+
+  def clean_mSuccess(self):
+    data = self.cleaned_data['mSuccess']
+    if not data:
+      data = 0 
+    return data
+
+  def clean_mSeen(self):
+    data = self.cleaned_data['mSeen']
+    if not data:
+      data = 0 
+    return data
+
+  def clean_mProp(self):
+    data = self.cleaned_data['mProp']
+    if not data:
+      data = 1 
+    return data
