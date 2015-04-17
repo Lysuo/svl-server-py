@@ -9,14 +9,21 @@ from rest_framework import status
 
 # Create your views here.
 
-class LanguageList(APIView):
+class LanguageRest(APIView):
 
   def get(self, request, format=None):
     l = Language.objects.all()
     serializer = LanguageSerializer(l, many=True)
     return Response(serializer.data)
 
-class TypeList(APIView):
+  def post(self, request, format=None):
+    serializer = LanguageSerializer(data = request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TypeRest(APIView):
 
   def get(self, request, format=None):
     headerL = request.META.get('HTTP_LANGUAGE')
@@ -24,7 +31,14 @@ class TypeList(APIView):
     serializer = TypeSerializer(t, many=True)
     return Response(serializer.data)
 
-class ChapterList(APIView):
+  def post(self, request, format=None):
+    serializer = TypeSerializer(data = request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ChapterRest(APIView):
 
   def get(self, request, format=None):
     headerT = request.META.get('HTTP_TYPE')
@@ -32,10 +46,24 @@ class ChapterList(APIView):
     serializer = ChapterSerializer(c, many=True)
     return Response(serializer.data)
 
-class WordList(APIView):
+  def post(self, request, format=None):
+    serializer = ChapterSerializer(data = request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class WordRest(APIView):
 
   def get(self, request, format=None):
     headerC = request.META.get('HTTP_CHAPTER')
     w = Word.objects.filter(wordChapter__id=headerC)
     serializer = WordSerializer(w, many=True)
     return Response(serializer.data)
+
+  def post(self, request, format=None):
+    serializer = WordSerializer(data = request.DATA)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
