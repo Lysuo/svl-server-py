@@ -17,6 +17,7 @@ class LanguageRest(APIView):
     return Response(serializer.data)
 
   def post(self, request, format=None):
+    print request.DATA
     serializer = LanguageSerializer(data = request.DATA)
     if serializer.is_valid():
       serializer.save()
