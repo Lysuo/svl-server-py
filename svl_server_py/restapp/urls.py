@@ -1,12 +1,12 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 
-from restapp import views
+import restapp.views as v
 
-urlpatterns = patterns('restapp.views',
+urlpatterns = [ 
 
-    url(r'^languages/$', views.LanguageRest().as_view()),
-    url(r'^types/$', views.TypeRest().as_view()),
-    url(r'^chapters/$', views.ChapterRest().as_view()),
-    url(r'^words/$', views.WordRest().as_view()),
-)
+    url(r'^languages/$', v.LanguageRest().as_view()),
+    url(r'^types/$', v.TypeRest().as_view()),
+    url(r'^chapters/$', v.ChapterRest().as_view()),
+    url(r'^words/$', v.WordRest().as_view()),
+]

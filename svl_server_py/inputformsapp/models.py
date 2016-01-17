@@ -22,7 +22,7 @@ class Chapter(models.Model):
   nameChapter = models.CharField(max_length=100)
   mDl = models.CharField(default='false', max_length=20)
   mLU = models.CharField(default='true', max_length=20)
-  mDLU = models.DateTimeField(auto_now_add=True, auto_now=True, blank=True)
+  mDLU = models.DateTimeField(auto_now_add=True, blank=True)
   mFile = models.FileField(upload_to="media/chapters/")
 
   def __unicode__(self):

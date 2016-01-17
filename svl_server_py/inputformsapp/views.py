@@ -180,3 +180,8 @@ def buildChaptersA(elem):
     eE['id'] = e.id
     chapters.append(eE)
   return chapters 
+
+
+
+def angular(request):
+  return render(request, 'angular.html', locals())

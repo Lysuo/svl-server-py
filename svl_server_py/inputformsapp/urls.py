@@ -1,7 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+import inputformsapp.views as v
 
-urlpatterns = patterns('inputformsapp.views',
-
-    url(r'^$', 'home', name='home'),
-)
+urlpatterns = [ 
+    url(r'^$', v.home, name='home'),
+    url(r'^angular/?$', v.angular, name='angular'),
+]

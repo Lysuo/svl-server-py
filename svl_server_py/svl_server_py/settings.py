@@ -10,22 +10,20 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import secret_key
 from os.path import join
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b*)2^(7mm^l2*kxw+hpr*!8o^zbku0w*vjnb!)4i@==@zvbg7m'
+SECRET_KEY = secret_key.value 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ["jeromegueret.ovh"]
-
 
 # Application definition
 
@@ -40,7 +38,7 @@ INSTALLED_APPS = (
     'inputformsapp',
     'restapp',
     'rest_framework',
-)
+    )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+    )
 
 ROOT_URLCONF = 'svl_server_py.urls'
 
@@ -62,10 +60,10 @@ WSGI_APPLICATION = 'svl_server_py.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+      'ENGINE': 'django.db.backends.sqlite3',
+      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+      }
     }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -89,9 +87,27 @@ MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
     join(BASE_DIR, 'static'),
-)
+    )
 
-TEMPLATE_DIRS = (
-    join(BASE_DIR, 'templates'),
-    join(BASE_DIR, 'inputformsapp/templates'),
-)
+TEMPLATES = [
+    {
+      'BACKEND': 'django.template.backends.django.DjangoTemplates',
+      'DIRS': [join(BASE_DIR, 'templates'), join(BASE_DIR, 'imputformsapp/templates')],
+      'APP_DIRS': True,
+      'OPTIONS': {
+#        'debug': DEBUG,
+        'context_processors': [
+          # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+          # list if you haven't customized them:
+          'django.contrib.auth.context_processors.auth',
+          'django.template.context_processors.request',
+          'django.template.context_processors.debug',
+          'django.template.context_processors.i18n',
+          'django.template.context_processors.media',
+          'django.template.context_processors.static',
+          'django.template.context_processors.tz',
+          'django.contrib.messages.context_processors.messages',
+          ],
+        },
+   },
+]
