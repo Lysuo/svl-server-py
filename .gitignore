@@ -11,6 +11,9 @@ notes
 *.sqlite3
 *.swp
 media/
+secret_key.py
+include/
+local/
 
 # Distribution / packaging
 bin/

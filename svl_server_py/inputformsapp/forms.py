@@ -4,6 +4,7 @@ from django import forms
 class LanguageForm(forms.ModelForm):
   class Meta:
     model = Language
+    fields = '__all__'
 
   def clean_nameLanguage(self):
     value = self.cleaned_data['nameLanguage']
@@ -15,6 +16,7 @@ class LanguageForm(forms.ModelForm):
 class TypeForm(forms.ModelForm):
   class Meta:
     model = Type 
+    fields = '__all__'
 
   def clean_nameType(self):
     valueL = self.cleaned_data['typeLanguage']
@@ -29,6 +31,7 @@ class ChapterForm(forms.ModelForm):
   mLU = forms.CharField(required=False)
   class Meta:
     model = Chapter 
+    fields = '__all__'
 
   def clean_nameChapter(self):
     valueL = self.cleaned_data['chapterLanguage']
@@ -54,6 +57,7 @@ class ChapterForm(forms.ModelForm):
 class UpdateChapterForm(forms.ModelForm):
   class Meta:
     model = UpdateChapter 
+    fields = '__all__'
 
 
 class WordForm(forms.ModelForm):
@@ -62,6 +66,7 @@ class WordForm(forms.ModelForm):
   mProp = forms.CharField(required=False)
   class Meta:
     model = Word
+    fields = '__all__'
 
   def clean_mSuccess(self):
     data = self.cleaned_data['mSuccess']
