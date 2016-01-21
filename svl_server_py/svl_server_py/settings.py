@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'inputformsapp',
     'restapp',
     'rest_framework',
+    'travelapp',
     )
 
 MIDDLEWARE_CLASSES = (
