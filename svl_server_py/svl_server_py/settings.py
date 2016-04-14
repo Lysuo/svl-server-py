@@ -21,9 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = secret_key.value 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["jeromegueret.ovh"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'inputformsapp',
     'restapp',
     'rest_framework',
+    'travelapp',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -84,6 +85,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+LOGIN_URL = '/signin/'
 
 STATICFILES_DIRS = (
     join(BASE_DIR, 'static'),
@@ -95,7 +97,7 @@ TEMPLATES = [
       'DIRS': [join(BASE_DIR, 'templates'), join(BASE_DIR, 'imputformsapp/templates')],
       'APP_DIRS': True,
       'OPTIONS': {
-#        'debug': DEBUG,
+        'debug': DEBUG,
         'context_processors': [
           # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
           # list if you haven't customized them:

@@ -6,6 +6,7 @@ from inputformsapp.models import Language, Type, Chapter, UpdateChapter, Word
 from inputformsapp.forms import LanguageForm, TypeForm, ChapterForm, UpdateChapterForm, WordForm
 
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 import csv
 import datetime
@@ -14,6 +15,7 @@ import json
 # Create your views here.
 
 @csrf_exempt
+@login_required
 def home(request):
 
   if request.method == 'POST':
