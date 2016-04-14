@@ -17,8 +17,8 @@ class LanguageRest(APIView):
     return Response(serializer.data)
 
   def post(self, request, format=None):
-    print request.DATA
-    serializer = LanguageSerializer(data = request.DATA)
+    print request.data
+    serializer = LanguageSerializer(data = request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -33,7 +33,7 @@ class TypeRest(APIView):
     return Response(serializer.data)
 
   def post(self, request, format=None):
-    serializer = TypeSerializer(data = request.DATA)
+    serializer = TypeSerializer(data = request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -48,7 +48,7 @@ class ChapterRest(APIView):
     return Response(serializer.data)
 
   def post(self, request, format=None):
-    serializer = ChapterSerializer(data = request.DATA)
+    serializer = ChapterSerializer(data = request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,7 +63,7 @@ class WordRest(APIView):
     return Response(serializer.data)
 
   def post(self, request, format=None):
-    serializer = WordSerializer(data = request.DATA)
+    serializer = WordSerializer(data = request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
