@@ -72,6 +72,16 @@ class WordRest(APIView):
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+  def put(self, request, format=None):
+    print "trying to update"
+    headerC = request.META.get('HTTP_WORD')
+    w = Word.objects.filter(id=headerC)
+    serializer = WordSerializer(w, data = request.data, partial=True)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
   def delete(self, request, format=None):
     headerC = request.META.get('HTTP_WORD')
     try:
