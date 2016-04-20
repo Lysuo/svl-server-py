@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from rest_framework.renderers import JSONRenderer
 from inputformsapp.models import Language, Type, Chapter, Word
 
 from restapp.serializers import LanguageSerializer, TypeSerializer, ChapterSerializer, WordSerializer
@@ -56,10 +56,13 @@ class ChapterRest(APIView):
 
 class WordRest(APIView):
 
+  renderer_classes = (JSONRenderer, )
+
   def get(self, request, format=None):
     headerC = request.META.get('HTTP_CHAPTER')
     w = Word.objects.filter(wordChapter__id=headerC)
     serializer = WordSerializer(w, many=True)
+    print serializer.data
     return Response(serializer.data)
 
   def post(self, request, format=None):
@@ -68,3 +71,13 @@ class WordRest(APIView):
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  def delete(self, request, format=None):
+    headerC = request.META.get('HTTP_WORD')
+    try:
+      w = Word.objects.filter(id=headerC)
+      w.delete()
+      content = {'status': 'deleted'}
+      return Response(content, status=status.HTTP_201_CREATED)
+    except:
+      return Response(status=status.HTTP_400_BAD_REQUEST)
