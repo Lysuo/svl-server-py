@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.renderers import JSONRenderer
 from inputformsapp.models import Language, Type, Chapter, Word
 
@@ -62,7 +62,6 @@ class WordRest(APIView):
     headerC = request.META.get('HTTP_CHAPTER')
     w = Word.objects.filter(wordChapter__id=headerC)
     serializer = WordSerializer(w, many=True)
-    print serializer.data
     return Response(serializer.data)
 
   def post(self, request, format=None):
@@ -73,14 +72,17 @@ class WordRest(APIView):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
   def put(self, request, format=None):
-    print "trying to update"
     headerC = request.META.get('HTTP_WORD')
-    w = Word.objects.filter(id=headerC)
-    serializer = WordSerializer(w, data = request.data, partial=True)
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+      w = get_object_or_404(Word, id=headerC)
+      serializer = WordSerializer(w, data = request.data, partial=True)
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+      print e
+      content = {'status': 'error. not updated'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def delete(self, request, format=None):
     headerC = request.META.get('HTTP_WORD')
@@ -90,4 +92,6 @@ class WordRest(APIView):
       content = {'status': 'deleted'}
       return Response(content, status=status.HTTP_201_CREATED)
     except:
-      return Response(status=status.HTTP_400_BAD_REQUEST)
+      print e
+      content = {'status': 'error. not deleted'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
