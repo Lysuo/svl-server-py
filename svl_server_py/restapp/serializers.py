@@ -1,5 +1,7 @@
 from inputformsapp.models import Language, Type, Chapter, Word
+from restapp.models import InfosChapter, InfosWord 
 from rest_framework import serializers
+from django.contrib.auth.models import User
 import datetime
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -56,3 +58,40 @@ class WordSerializer(serializers.ModelSerializer):
   class Meta:
     model = Word 
     fields = ('mIdL', 'mIdT', 'mIdW', 'mFrenchV', 'mTranslation', 'mIdC', 'mSuccess', 'mSeen', 'mProp')
+
+class InfosWordSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = InfosWord
+    fields = ('mIdW', 'mFailed', 'mSeen', 'isBookmarked', 'mLastRevisionTS', 'mPropStat')
+
+
+class InfosChapterSerializer(serializers.ModelSerializer):
+  mWords = InfosWordSerializer(many=True)
+
+  class Meta:
+    model = InfosChapter
+    fields = ('mUser', 'mIdC', 'mTitle', 'isInProgress', 'mLastCompleted', 'mWords')
+
+  def create(self, validated_data):
+    if InfosChapter.objects.filter(mUser=validated_data['mUser'], mIdC=validated_data['mIdC']).count() > 0:
+      ic = InfosChapter.objects.get(mUser=validated_data['mUser'], mIdC=validated_data['mIdC'])
+      ic.isInProgress = validated_data['isInProgress']
+      ic.mLastCompleted = validated_data['mLastCompleted']
+    else:
+      ic = InfosChapter(mUser=validated_data['mUser'], mIdC=validated_data['mIdC'], mTitle=validated_data['mTitle'], isInProgress=validated_data['isInProgress'], mLastCompleted=validated_data['mLastCompleted'])
+    ic.save()
+
+    for item in validated_data['mWords']:
+      if InfosWord.objects.filter(mUser=validated_data['mUser'], mIdW=item['mIdW']).count() > 0:
+        word = InfosWord.objects.get(mUser=validated_data['mUser'], mIdW=item['mIdW'])
+        word.mFailed = item['mFailed']
+        word.mSeen = item['mSeen']
+        word.isBookmarked = item['isBookmarked']
+        word.mLastRevisionTS = item['mLastRevisionTS']
+        word.mPropStat = item['mPropStat']
+      else:
+        word = InfosWord(mUser=validated_data['mUser'], mIdC=validated_data['mIdC'], mTitle=validated_data['mIdC'].nameChapter, mIdW=item['mIdW'], mFrench=item['mIdW'].french, mFailed=item['mFailed'], mSeen=item['mSeen'], isBookmarked=item['isBookmarked'], mLastRevisionTS=item['mLastRevisionTS'], mPropStat=item['mPropStat'])
+      word.save()
+
+    return ic
