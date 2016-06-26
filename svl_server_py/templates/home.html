@@ -12,6 +12,14 @@
   <body>
 
     <div class="container">
+
+    <br />
+    {% if user.is_authenticated %}
+    Vous êtes connecté, {{ user.username }} !
+    {% endif %}
+
+    <br />
+    <br />
       <h3>Select the action you want to perform :</h3>
       <div class="panel panel-body">
         <fieldset>
@@ -36,8 +44,8 @@
       </ul>
       </div-->
 
-      <br /><br />
 
+    <br /><br />
 
       <div id="form1" class="panel panel-default panel-form-perso forms-perso" style="display:none;">
         <div class="panel-heading">New language</div>

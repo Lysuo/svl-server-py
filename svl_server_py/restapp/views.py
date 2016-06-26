@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.renderers import JSONRenderer
 from inputformsapp.models import Language, Type, Chapter, Word
+from restapp.models import InfosChapter, InfosWord 
 
-from restapp.serializers import LanguageSerializer, TypeSerializer, ChapterSerializer, WordSerializer
+from restapp.serializers import LanguageSerializer, TypeSerializer, ChapterSerializer, WordSerializer, InfosChapterSerializer#, DumpSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status
@@ -95,3 +96,16 @@ class WordRest(APIView):
       print e
       content = {'status': 'error. not deleted'}
       return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+class DumpRest(APIView):
+
+  renderer_classes = (JSONRenderer, )
+
+  def post(self, request, format=None):
+    serializer = InfosChapterSerializer(many=True, data = request.data)
+    print serializer.is_valid()
+    if serializer.is_valid():
+      serializer.save()
+      return Response(status=status.HTTP_201_CREATED)
+    print serializer.errors
+    return Response(status=status.HTTP_400_BAD_REQUEST)

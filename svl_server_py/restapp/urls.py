@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^types/$', v.TypeRest().as_view()),
     url(r'^chapters/$', v.ChapterRest().as_view()),
     url(r'^words/$', v.WordRest().as_view()),
+    url(r'^dump/$', v.DumpRest().as_view()),
 ]
