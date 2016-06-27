@@ -8,7 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status
 
+from threading import Thread
+
 # Create your views here.
+
 
 class LanguageRest(APIView):
 
@@ -100,12 +103,40 @@ class WordRest(APIView):
 class DumpRest(APIView):
 
   renderer_classes = (JSONRenderer, )
+  serializer = None
+
+  def postpone(function):
+    def decorator(*args, **kwargs):
+      t = Thread(target = function, args=args, kwargs=kwargs)
+      t.daemon = True
+      t.start()
+    return decorator
+
+  @postpone
+  def foo():
+    self.serializer.save()
+
+  def get(self, request, format=None):
+    headerC = request.META.get('HTTP_USER')
+    d = InfosChapter.objects.filter(mUser__id=headerC)
+    serializer = InfosChapterSerializer(d, many=True)
+    return Response(serializer.data)
 
   def post(self, request, format=None):
-    serializer = InfosChapterSerializer(many=True, data = request.data)
-    print serializer.is_valid()
-    if serializer.is_valid():
-      serializer.save()
+    self.serializer = InfosChapterSerializer(many=True, data = request.data)
+    print self.serializer.is_valid()
+    if self.serializer.is_valid():
+      #self.foo()
+      t = Thread(target = self.serializer.save)
+      t.daemon = True
+      t.start()
+      #serializer.save()
+      #t = threading.Thread(target=manage_incident, args=(incident,))
+      #t.setDaemon(True)
+      #t.start()
       return Response(status=status.HTTP_201_CREATED)
-    print serializer.errors
+    print self.serializer.errors
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
