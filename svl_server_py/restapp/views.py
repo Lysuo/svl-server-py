@@ -32,9 +32,17 @@ class TypeRest(APIView):
 
   def get(self, request, format=None):
     headerL = request.META.get('HTTP_LANGUAGE')
-    t = Type.objects.filter(typeLanguage__id=headerL)
-    serializer = TypeSerializer(t, many=True)
-    return Response(serializer.data)
+    if headerL.isdigit(): 
+      t = Type.objects.filter(typeLanguage__id=headerL)
+      serializer = TypeSerializer(t, many=True)
+      return Response(serializer.data)
+    elif headerL == "all":
+      t = Type.objects.all()
+      serializer = TypeSerializer(t, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header LANGUAGE'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     serializer = TypeSerializer(data = request.data)
@@ -116,7 +124,7 @@ class DumpRest(APIView):
       serializer = InfosWordGETSerializer(d, many=True)
       return Response(serializer.data)
     else:
-      content = {'status': 'missing parameter USER or TYPE'}
+      content = {'status': 'missing header USER or TYPE'}
       return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
