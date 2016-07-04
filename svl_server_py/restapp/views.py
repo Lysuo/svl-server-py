@@ -80,9 +80,6 @@ class WordRest(APIView):
 
   def get(self, request, format=None):
     headerC = request.META.get('HTTP_CHAPTER')
-    w = Word.objects.filter(wordChapter__id=headerC)
-    serializer = WordSerializer(w, many=True)
-    return Response(serializer.data)
     if headerC.isdigit(): 
       w = Word.objects.filter(wordChapter__id=headerC)
       serializer = WordSerializer(w, many=True)
