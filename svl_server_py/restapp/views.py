@@ -83,6 +83,17 @@ class WordRest(APIView):
     w = Word.objects.filter(wordChapter__id=headerC)
     serializer = WordSerializer(w, many=True)
     return Response(serializer.data)
+    if headerC.isdigit(): 
+      w = Word.objects.filter(wordChapter__id=headerC)
+      serializer = WordSerializer(w, many=True)
+      return Response(serializer.data)
+    elif headerC == "all":
+      w = Word.objects.all()
+      serializer = WordSerializer(w, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header CHAPTER'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     serializer = WordSerializer(data = request.data)
