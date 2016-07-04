@@ -3,7 +3,7 @@ from rest_framework.renderers import JSONRenderer
 from inputformsapp.models import Language, Type, Chapter, Word
 from restapp.models import InfosChapter, InfosWord 
 
-from restapp.serializers import LanguageSerializer, TypeSerializer, ChapterSerializer, WordSerializer, InfosChapterSerializer#, DumpSerializer
+from restapp.serializers import LanguageSerializer, TypeSerializer, ChapterSerializer, WordSerializer, InfosChapterSerializer, InfosChapterGETSerializer, InfosWordGETSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status
@@ -32,9 +32,17 @@ class TypeRest(APIView):
 
   def get(self, request, format=None):
     headerL = request.META.get('HTTP_LANGUAGE')
-    t = Type.objects.filter(typeLanguage__id=headerL)
-    serializer = TypeSerializer(t, many=True)
-    return Response(serializer.data)
+    if headerL.isdigit(): 
+      t = Type.objects.filter(typeLanguage__id=headerL)
+      serializer = TypeSerializer(t, many=True)
+      return Response(serializer.data)
+    elif headerL == "all":
+      t = Type.objects.all()
+      serializer = TypeSerializer(t, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header LANGUAGE'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     serializer = TypeSerializer(data = request.data)
@@ -47,9 +55,17 @@ class ChapterRest(APIView):
 
   def get(self, request, format=None):
     headerT = request.META.get('HTTP_TYPE')
-    c = Chapter.objects.filter(chapterType__id=headerT)
-    serializer = ChapterSerializer(c, many=True)
-    return Response(serializer.data)
+    if headerT.isdigit(): 
+      c = Chapter.objects.filter(chapterType__id=headerT)
+      serializer = ChapterSerializer(c, many=True)
+      return Response(serializer.data)
+    elif headerT == "all":
+      c = Chapter.objects.all()
+      serializer = ChapterSerializer(c, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header TYPE'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     serializer = ChapterSerializer(data = request.data)
@@ -103,40 +119,28 @@ class WordRest(APIView):
 class DumpRest(APIView):
 
   renderer_classes = (JSONRenderer, )
-  serializer = None
-
-  def postpone(function):
-    def decorator(*args, **kwargs):
-      t = Thread(target = function, args=args, kwargs=kwargs)
-      t.daemon = True
-      t.start()
-    return decorator
-
-  @postpone
-  def foo():
-    self.serializer.save()
 
   def get(self, request, format=None):
-    headerC = request.META.get('HTTP_USER')
-    d = InfosChapter.objects.filter(mUser__id=headerC)
-    serializer = InfosChapterSerializer(d, many=True)
-    return Response(serializer.data)
+    headerU = request.META.get('HTTP_USER')
+    headerT = request.META.get('HTTP_TYPE')
+    if headerT == "chapters":
+      d = InfosChapter.objects.filter(mUser__id=headerU)
+      serializer = InfosChapterGETSerializer(d, many=True)
+      return Response(serializer.data)
+    elif headerT == "words":
+      d = InfosWord.objects.filter(mUser__id=headerU)
+      serializer = InfosWordGETSerializer(d, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header USER or TYPE'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     self.serializer = InfosChapterSerializer(many=True, data = request.data)
-    print self.serializer.is_valid()
-    if self.serializer.is_valid():
-      #self.foo()
-      t = Thread(target = self.serializer.save)
+    if serializer.is_valid():
+      t = Thread(target = serializer.save)
       t.daemon = True
       t.start()
-      #serializer.save()
-      #t = threading.Thread(target=manage_incident, args=(incident,))
-      #t.setDaemon(True)
-      #t.start()
       return Response(status=status.HTTP_201_CREATED)
-    print self.serializer.errors
+    print serializer.errors
     return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-

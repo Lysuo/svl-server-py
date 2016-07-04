@@ -65,6 +65,11 @@ class InfosWordSerializer(serializers.ModelSerializer):
     model = InfosWord
     fields = ('mIdW', 'mFailed', 'mSeen', 'isBookmarked', 'mLastRevisionTS', 'mPropStat')
 
+class InfosWordGETSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = InfosWord
+    fields = ('mUser', 'mIdC', 'mIdW', 'mFailed', 'mSeen', 'isBookmarked', 'mLastRevisionTS', 'mPropStat')
 
 class InfosChapterSerializer(serializers.ModelSerializer):
   mWords = InfosWordSerializer(many=True)
@@ -95,3 +100,9 @@ class InfosChapterSerializer(serializers.ModelSerializer):
       word.save()
 
     return ic
+
+class InfosChapterGETSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = InfosChapter
+    fields = ('mUser', 'mIdC', 'mTitle', 'isInProgress', 'mLastCompleted')
