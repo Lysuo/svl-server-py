@@ -55,9 +55,17 @@ class ChapterRest(APIView):
 
   def get(self, request, format=None):
     headerT = request.META.get('HTTP_TYPE')
-    c = Chapter.objects.filter(chapterType__id=headerT)
-    serializer = ChapterSerializer(c, many=True)
-    return Response(serializer.data)
+    if headerT.isdigit(): 
+      c = Chapter.objects.filter(chapterType__id=headerT)
+      serializer = ChapterSerializer(c, many=True)
+      return Response(serializer.data)
+    elif headerT == "all":
+      c = Chapter.objects.all()
+      serializer = ChapterSerializer(c, many=True)
+      return Response(serializer.data)
+    else:
+      content = {'status': 'missing header TYPE'}
+      return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
     serializer = ChapterSerializer(data = request.data)
