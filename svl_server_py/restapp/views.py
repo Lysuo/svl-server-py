@@ -144,7 +144,7 @@ class DumpRest(APIView):
       return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
   def post(self, request, format=None):
-    self.serializer = InfosChapterSerializer(many=True, data = request.data)
+    serializer = InfosChapterSerializer(many=True, data = request.data)
     if serializer.is_valid():
       t = Thread(target = serializer.save)
       t.daemon = True
