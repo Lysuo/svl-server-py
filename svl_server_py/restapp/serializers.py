@@ -48,8 +48,8 @@ class ChapterSerializer(serializers.ModelSerializer):
     fields = ('mIdC', 'mIdL', 'mIdT', 'mTitle', 'mDateLastUpdate', 'mLastUpdate', 'mDL')
 
 class WordSerializer(serializers.ModelSerializer):
-  mIdL = serializers.CharField(source="wordLanguage_id", required=False, write_only=True)
-  mIdT = serializers.CharField(source="wordType_id", required=False, write_only=True)
+  mIdL = serializers.CharField(source="wordLanguage_id", required=False)
+  mIdT = serializers.CharField(source="wordType_id", required=False)
   mIdC = serializers.CharField(source="wordChapter_id")
   mIdW = serializers.CharField(source="id", required=False)
   mFrenchV = serializers.CharField(source="french")
@@ -57,7 +57,7 @@ class WordSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Word 
-    fields = ('mIdL', 'mIdT', 'mIdW', 'mFrenchV', 'mTranslation', 'mIdC', 'mSuccess', 'mSeen', 'mProp')
+    fields = ('mIdL', 'mIdT', 'mIdW', 'mFrenchV', 'mTranslation', 'mIdC')
 
 class InfosWordSerializer(serializers.ModelSerializer):
 
